@@ -1,13 +1,22 @@
 {
-  "name": "boilerplate-redux-async",
+  "name": "async-redux-boilerplate",
   "version": "0.1.1",
-  "description": "React Redux with simple async action",
+  "description": "React Redux simple boilerplate",
   "main": "server/index",
   "scripts": {
-    "dev": "nodemon --watch server & webpack --watch",
-    "test": "jest --watchAll",
-    "start": "node server",
-    "postinstall": "webpack"
+    "build": "webpack --config webpack.config.js",
+    "server": "run-s build start",
+    "start": "node .",
+    "test": "jest --verbose",
+    "test:watch": "jest --watchAll --verbose",
+    "dev": "run-p dev:server dev:client",
+    "dev:server": "nodemon .",
+    "dev:client": "webpack --config webpack.config.js --watch",
+    "knex": "knex --knexfile server/db/knexfile.js",
+    "db:reset": "run-s db:delete db:migrate db:seed",
+    "db:migrate": "npm run knex migrate:latest",
+    "db:seed": "npm run knex seed:run",
+    "db:delete": "rm -f server/db/dev.sqlite3"
   },
   "author": "EDA",
   "license": "ISC",
